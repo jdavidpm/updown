@@ -17,7 +17,7 @@
 	<body>
 		<header class="site-header">
 			<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-				<div class="container">
+				<div class="container-fluid">
 					<a class="navbar-brand mr-4" href="/">Django Blog</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -29,8 +29,16 @@
 						</div>
 						<!-- Navbar Right Side -->
 						<div class="navbar-nav">
-							<a class="nav-item nav-link" href="#">Login</a>
-							<a class="nav-item nav-link" href="#">Register</a>
+							{% if user.is_authenticated %}
+								<a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+								<form method="post" action="{% url 'logout' %}">
+									{% csrf_token %}
+									<button class="nav-item nav-link" type="submit">Logout</button>
+								</form>
+							{% else  %}
+								<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+								<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>

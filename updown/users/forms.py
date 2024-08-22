@@ -8,4 +8,4 @@ class UserRegisterForm(UserCreationForm):
     class meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'usable_password']
-    field_order = ['username', 'email', 'password1', 'password2', 'usable_password', ]
+    field_order = ['username', 'email', 'password1', 'password2', 'usable_password']
