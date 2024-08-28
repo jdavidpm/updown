@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from typing import Any
+from django.db.models.query import QuerySet
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from .models import Post
 
 def home(request):
@@ -11,12 +14,27 @@ def about(request):
 
 class PostListView(ListView):
     model = Post
+    paginate_by = 2
     ordering = ['-date_posted']
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.all()
         return context
+    
+class UserPostListView(ListView):
+    model = Post
+    paginate_by = 2
+    template_name = 'blog/user_posts.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        return context
+    
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 class PostDetailView(DetailView):
     model = Post
@@ -32,6 +50,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = f'/post/'
+    
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
