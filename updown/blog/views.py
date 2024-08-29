@@ -14,7 +14,7 @@ def about(request):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 2
+    paginate_by = 5
     ordering = ['-date_posted']
     
     def get_context_data(self, **kwargs):
@@ -24,7 +24,7 @@ class PostListView(ListView):
     
 class UserPostListView(ListView):
     model = Post
-    paginate_by = 2
+    paginate_by = 5
     template_name = 'blog/user_posts.html'
     
     def get_context_data(self, **kwargs):
