@@ -1,0 +1,9 @@
+asgiref==3.8.1
+crispy-bootstrap5==2024.2
+Django==5.1
+django-crispy-forms==2.3
+pillow==10.4.0
+setuptools==72.1.0
+sqlparse @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/sqlparse_1699544474746/work
+tzdata @ file:///croot/python-tzdata_1690578112552/work
+wheel==0.43.0
